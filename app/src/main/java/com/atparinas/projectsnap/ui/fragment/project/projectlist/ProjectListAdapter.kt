@@ -1,5 +1,6 @@
 package com.atparinas.projectsnap.ui.fragment.project.projectlist
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View

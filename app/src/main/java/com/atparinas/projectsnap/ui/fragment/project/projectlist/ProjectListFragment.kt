@@ -4,6 +4,7 @@ package com.atparinas.projectsnap.ui.fragment.project.projectlist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -45,6 +46,8 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
     private val mProjectListAdapter = ProjectListAdapter()
 
 
+    private val mLayoutManager = LinearLayoutManager(this.context)
+
     /*
         ################################################
                     FRAGMENTS LIFECYCLE
@@ -69,7 +72,7 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
         //Initialize RecyclerView with Layout and Adapter
         val projectListRecyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_project_list)
         projectListRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@ProjectListFragment.context)
+            layoutManager = mLayoutManager
             adapter = mProjectListAdapter
         }
 
@@ -79,9 +82,13 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d("FRAGMENT_LOG", "ProjectListFragment: onActivityCreated")
+        Log.d("FRAGMENT_LOG", "ProjectListFragment: onActivityCreated ")
+
         subscribeToProjectList()
+
     }
+
+
 
 
     override fun onDestroy() {

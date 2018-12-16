@@ -1,6 +1,7 @@
 package com.atparinas.projectsnap.ui.fragment.project
 
 import android.arch.lifecycle.ViewModel
+import android.os.Parcelable
 import com.atparinas.projectsnap.data.entity.Project
 import com.atparinas.projectsnap.data.repository.ProjectRepository
 import com.atparinas.projectsnap.internal.ProjectStatus

@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@android:color/white"
         android:clickable="true"
@@ -20,6 +20,7 @@
                 android:id="@+id/text_view_project_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginEnd="4dp"
@@ -35,9 +36,9 @@
                 android:layout_below="@id/text_view_project_name"
                 android:layout_marginStart="4dp"
                 android:layout_marginBottom="4dp"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="@color/textPrimary"
-                tools:text="Site Number:"/>
+                android:text="@string/site_number" />
 
         <TextView
                 android:id="@+id/text_view_site_number"
@@ -47,7 +48,7 @@
                 android:layout_below="@id/text_view_project_name"
                 android:layout_marginStart="2dp"
                 android:layout_marginBottom="4dp"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="@color/textSecondary"
                 tools:text="1234567890"/>
 
@@ -59,9 +60,8 @@
                 android:layout_toEndOf="@id/text_view_site_number"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="4dp"
-                android:textSize="10sp"
-                android:textColor="@color/textPrimary"
-                tools:text="Site Name:" android:fontFamily="sans-serif"/>
+                android:textSize="12sp"
+                android:text="@string/site_name" android:fontFamily="sans-serif"/>
 
         <TextView
                 android:id="@+id/text_view_site_name"
@@ -71,7 +71,7 @@
                 android:layout_toEndOf="@id/label_site_name"
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="4dp"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="@color/textSecondary"
                 tools:text="ABCDEFGHIJKLMNOPQRS"/>
 
@@ -89,10 +89,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view_divider"
                 android:layout_alignStart="@id/label_site_number"
-                android:layout_marginBottom="4dp"
-                android:textSize="10sp"
+                android:layout_marginBottom="8dp"
+                android:textSize="12sp"
                 android:textColor="@color/textPrimary"
-                tools:text="Status:"/>
+                android:text="@string/status" />
 
         <TextView
                 android:id="@+id/text_view_project_status"
@@ -100,10 +100,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view_divider"
                 android:layout_toEndOf="@id/label_project_status"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="@color/textSecondary"
                 tools:text="Completed"/>
 
