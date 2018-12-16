@@ -1,4 +1,4 @@
-package com.atparinas.projectsnap.ui.fragment.project
+package com.atparinas.projectsnap.ui.fragment.project.projectlist
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -34,6 +34,11 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListVi
 
     }
 
+    fun setProjectList(projects: List<Project>){
+        mProjects.addAll(projects)
+        notifyDataSetChanged()
+    }
+
 
     inner class ProjectListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val projectName = view.findViewById<TextView>(R.id.text_view_project_name)
@@ -42,4 +47,6 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListVi
         val projectStatus = view.findViewById<TextView>(R.id.text_view_project_status)
 
     }
+
+
 }

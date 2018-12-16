@@ -26,6 +26,8 @@ class ProjectViewModel(private val projectRepository: ProjectRepository): ViewMo
     ){
         val project = Project(projectName, siteNumber, siteName, status, Calendar.getInstance().time)
 
+
+
         projectRepository.insetProject(project)
     }
 

@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
 import com.atparinas.projectsnap.R
-import com.atparinas.projectsnap.ui.fragment.project.ProjectListFragment
+import com.atparinas.projectsnap.ui.fragment.project.projectlist.ProjectListFragment
 import com.atparinas.projectsnap.ui.fragment.project.ProjectSearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = "Project List"
 
         navigation_main.setOnNavigationItemSelectedListener(bottomNavigationSelectedListener)
+
+        replaceFragment(ProjectListFragment())
 
     }
 
