@@ -7,7 +7,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_project">New Project</string>
     <string name="save_project">Save Project</string>
-    <string name="site_name">Site Name: </string>
-    <string name="site_number">Site Number: </string>
-    <string name="status">Status: </string>
+    <string name="site_name">Site Name:</string>
+    <string name="site_number">Site Number:</string>
+    <string name="status">Status:</string>
 </resources>

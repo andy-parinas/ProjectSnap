@@ -3,6 +3,7 @@ package com.atparinas.projectsnap.ui.fragment.project.projectlist
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
@@ -14,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.atparinas.projectsnap.R
+import com.atparinas.projectsnap.data.entity.Project
+import com.atparinas.projectsnap.ui.activity.TaskListActivity
 import com.atparinas.projectsnap.ui.fragment.project.ProjectViewModel
 import com.atparinas.projectsnap.ui.fragment.project.ProjectViewModelFactory
 import kotlinx.android.synthetic.main.fragment_project_list.*
@@ -86,6 +89,8 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
 
         subscribeToProjectList()
 
+        mProjectListAdapter.setItemClickListener(setItemOnClickListener())
+
     }
 
 
@@ -111,6 +116,18 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
             if(it == null) return@Observer
             mProjectListAdapter.setProjectList(it)
         })
+    }
+
+    private fun setItemOnClickListener(): ProjectListAdapter.OnItemClickListener{
+        return object : ProjectListAdapter.OnItemClickListener{
+            override fun onItemClicked(project: Project) {
+                val intent = Intent(this@ProjectListFragment.context, TaskListActivity::class.java)
+                intent.putExtra(TaskListActivity.EXTRA_PROJECT_ID, project.id)
+                intent.putExtra(TaskListActivity.EXTRA_PROJECT_NAME, project.name)
+                startActivity(intent)
+            }
+
+        }
     }
 
 

@@ -13,6 +13,8 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListVi
 
     private val mProjects = mutableListOf<Project>()
 
+    private lateinit var mItemClickListener: OnItemClickListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.project_list_item, parent, false)
@@ -40,6 +42,9 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListVi
         notifyDataSetChanged()
     }
 
+    fun setItemClickListener(itemClickListener: OnItemClickListener){
+        mItemClickListener = itemClickListener
+    }
 
     inner class ProjectListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val projectName = view.findViewById<TextView>(R.id.text_view_project_name)
@@ -47,7 +52,20 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListVi
         val siteName = view.findViewById<TextView>(R.id.text_view_site_name)
         val projectStatus = view.findViewById<TextView>(R.id.text_view_project_status)
 
+
+        init {
+            view.setOnClickListener {
+                if(::mItemClickListener.isInitialized){
+                    mItemClickListener.onItemClicked(mProjects[adapterPosition])
+                }
+            }
+        }
+
     }
 
+
+    interface OnItemClickListener {
+        fun onItemClicked(project: Project)
+    }
 
 }
