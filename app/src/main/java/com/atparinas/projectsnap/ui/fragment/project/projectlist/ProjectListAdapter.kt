@@ -1,5 +1,7 @@
 package com.atparinas.projectsnap.ui.fragment.project.projectlist
 
+import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,9 +11,22 @@ import android.widget.TextView
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.data.entity.Project
 
-class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListViewHolder>(){
+//class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListViewHolder>(){
 
-    private val mProjects = mutableListOf<Project>()
+class ProjectListAdapter :
+    ListAdapter<Project, ProjectListAdapter.ProjectListViewHolder>(object: DiffUtil.ItemCallback<Project>(){
+        override fun areItemsTheSame(p0: Project, p1: Project): Boolean {
+            return p0.id == p1.id
+        }
+
+        override fun areContentsTheSame(p0: Project, p1: Project): Boolean {
+            return p0.name == p1.name && p0.siteNumber == p1.siteNumber && p0.siteName == p1.siteName
+        }
+
+    }){
+
+
+//    private val mProjects = mutableListOf<Project>()
 
     private lateinit var mItemClickListener: OnItemClickListener
 
@@ -22,13 +37,13 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListVi
         return ProjectListViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return mProjects.size
-    }
+//    override fun getItemCount(): Int {
+//        return mProjects.size
+//    }
 
     override fun onBindViewHolder(viewHolder: ProjectListViewHolder, position: Int) {
 
-        val project = mProjects[position]
+        val project = getItem(position)
 
         viewHolder.projectName.text = project.name
         viewHolder.siteNumber.text = project.siteNumber
@@ -37,10 +52,10 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListVi
 
     }
 
-    fun setProjectList(projects: List<Project>){
-        mProjects.addAll(projects)
-        notifyDataSetChanged()
-    }
+//    fun setProjectList(projects: List<Project>){
+//        mProjects.addAll(projects)
+//        notifyDataSetChanged()
+//    }
 
     fun setItemClickListener(itemClickListener: OnItemClickListener){
         mItemClickListener = itemClickListener
@@ -56,7 +71,7 @@ class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListVi
         init {
             view.setOnClickListener {
                 if(::mItemClickListener.isInitialized){
-                    mItemClickListener.onItemClicked(mProjects[adapterPosition])
+                    mItemClickListener.onItemClicked(getItem(adapterPosition))
                 }
             }
         }

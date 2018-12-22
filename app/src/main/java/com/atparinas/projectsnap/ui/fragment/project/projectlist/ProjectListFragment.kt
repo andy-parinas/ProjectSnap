@@ -114,7 +114,8 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
 
         projects.observe(this@ProjectListFragment, Observer {
             if(it == null) return@Observer
-            mProjectListAdapter.setProjectList(it)
+            //mProjectListAdapter.setProjectList(it)
+            mProjectListAdapter.submitList(it)
         })
     }
 
