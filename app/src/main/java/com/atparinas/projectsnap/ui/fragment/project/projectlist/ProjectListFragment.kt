@@ -5,7 +5,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,10 +15,9 @@ import android.view.ViewGroup
 
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.data.entity.Project
-import com.atparinas.projectsnap.ui.activity.TaskListActivity
+import com.atparinas.projectsnap.ui.activity.task.TaskListActivity
 import com.atparinas.projectsnap.ui.fragment.project.ProjectViewModel
 import com.atparinas.projectsnap.ui.fragment.project.ProjectViewModelFactory
-import kotlinx.android.synthetic.main.fragment_project_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

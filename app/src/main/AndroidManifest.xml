@@ -25,7 +25,7 @@
                 android:label="New Project"
                 android:parentActivityName=".ui.activity.MainActivity">
         </activity>
-        <activity android:name=".ui.activity.TaskListActivity" android:parentActivityName=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.task.TaskListActivity" android:parentActivityName=".ui.activity.MainActivity">
         </activity>
     </application>
 

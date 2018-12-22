@@ -26,9 +26,6 @@ class ProjectViewModel(private val projectRepository: ProjectRepository): ViewMo
         status: String = ProjectStatus.NEW
     ){
         val project = Project(projectName, siteNumber, siteName, status, Calendar.getInstance().time)
-
-
-
         projectRepository.insetProject(project)
     }
 

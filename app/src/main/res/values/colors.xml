@@ -6,4 +6,6 @@
 
     <color name="textPrimary">#212121</color>
     <color name="textSecondary">#616161</color>
+    <color name="taskPrimary">#BDBDBD</color>
+
 </resources>

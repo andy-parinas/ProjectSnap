@@ -6,13 +6,16 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import com.atparinas.projectsnap.data.dao.ProjectDao
+import com.atparinas.projectsnap.data.dao.TaskDao
 import com.atparinas.projectsnap.data.entity.Project
+import com.atparinas.projectsnap.data.entity.Task
 
-@Database(entities = [Project::class], version = 1)
+@Database(entities = [Project::class, Task::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class ProjectDatabase: RoomDatabase() {
 
     abstract fun projectDao(): ProjectDao
+    abstract fun taskDao(): TaskDao
 
     companion object {
         @Volatile private var instance: ProjectDatabase? = null
