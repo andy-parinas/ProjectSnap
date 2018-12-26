@@ -1,5 +1,7 @@
 package com.atparinas.projectsnap.ui.activity.task
 
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
@@ -11,7 +13,7 @@ import android.widget.TextView
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.data.entity.Task
 
-class TaskListAdapter:
+class TaskListAdapter (val context: Context):
         ListAdapter<Task, TaskListAdapter.TaskListViewHolder >(object: DiffUtil.ItemCallback<Task>(){
             override fun areItemsTheSame(p0: Task, p1: Task): Boolean {
                 return p0.id == p1.id
@@ -37,7 +39,9 @@ class TaskListAdapter:
 
         viewHolder.taskNameTextView.text = task.name
         if(task.isComplete)
-            viewHolder.isCompleteImageView.setColorFilter(R.color.taskPrimary)
+            viewHolder.isCompleteImageView.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent ))
+        else
+            viewHolder.isCompleteImageView.setColorFilter(ContextCompat.getColor(context, R.color.taskPrimary ))
     }
 
     fun setTaskClickListener(taskClickListnener: TaskClickListnener){
@@ -57,8 +61,16 @@ class TaskListAdapter:
             }
 
             isCompleteImageView.setOnClickListener {
-                if(::mTaskClickListener.isInitialized)
-                    mTaskClickListener.onTasStatusClick(getItem(adapterPosition))
+                if(::mTaskClickListener.isInitialized){
+                    mTaskClickListener.onTasStatusClick(getItem(adapterPosition)){isComplete ->
+                        if(isComplete)
+                            isCompleteImageView.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent ))
+                        else
+                            isCompleteImageView.setColorFilter(ContextCompat.getColor(context, R.color.taskPrimary ))
+                    }
+
+                }
+
             }
         }
 
@@ -67,7 +79,7 @@ class TaskListAdapter:
 
     interface TaskClickListnener {
         fun onTaskNameClick(task: Task)
-        fun onTasStatusClick(task: Task)
+        fun onTasStatusClick(task: Task, callback: (newStatus: Boolean) -> Unit)
     }
 
 }

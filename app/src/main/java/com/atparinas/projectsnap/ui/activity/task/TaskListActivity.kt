@@ -6,6 +6,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.widget.Toast
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.data.entity.Task
@@ -39,7 +40,7 @@ class TaskListActivity : AppCompatActivity(), KodeinAware, CoroutineScope {
     private val taskViewModelFactory: TaskViewModelFactory by instance()
     private lateinit var taskViewModel: TaskViewModel
 
-    private val mTaskListAdapter = TaskListAdapter()
+    private val mTaskListAdapter = TaskListAdapter(this)
 
     private var projectId = -1
     private var projectName = ""
@@ -100,24 +101,28 @@ class TaskListActivity : AppCompatActivity(), KodeinAware, CoroutineScope {
         Toast.makeText(this@TaskListActivity, "Task Saved", Toast.LENGTH_SHORT).show()
     }
 
-    private fun updateTaskStatus(isComplete: Boolean) = launch {
-
+    private fun updateTaskStatus(task: Task, isComplete: Boolean, callback: (newStatus: Boolean)->Unit) = launch {
+        taskViewModel.updateTaskStatus(task, isComplete)
+        Log.d("TASK_ACTIVITY", "Status Updated")
+        callback(isComplete)
     }
 
 
     private fun setTaskClickListener() : TaskListAdapter.TaskClickListnener {
 
         return object : TaskListAdapter.TaskClickListnener {
+            override fun onTasStatusClick(task: Task, callback: (newStatus: Boolean) -> Unit) {
+                val status = !task.isComplete
+                Log.d("TASK_ACTIVITY", "The current status: ${task.isComplete} changed to $status")
+                updateTaskStatus(task, status, callback )
+            }
+
             override fun onTaskNameClick(task: Task) {
                 val intent = Intent(this@TaskListActivity, ImageContent::class.java)
                 intent.putExtra(EXTRA_TASK_NAME, task.name)
                 intent.putExtra(EXTRA_PROJECT_NAME, projectName)
                 intent.putExtra(EXTRA_TASK_ID, task.id)
                 startActivity(intent)
-            }
-
-            override fun onTasStatusClick(task: Task) {
-                //Toast.makeText(this@TaskListActivity, "Task Status Clicked", Toast.LENGTH_SHORT).show()
             }
 
         }

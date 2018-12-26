@@ -27,5 +27,10 @@ class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
         taskRepository.insertTask(task)
     }
 
+    suspend fun updateTaskStatus(task: Task, isComplete: Boolean){
+        task.isComplete = isComplete
+        taskRepository.updateTask(task)
+    }
+
 
 }
