@@ -2,11 +2,14 @@ package com.atparinas.projectsnap.ui.activity.task
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.atparinas.projectsnap.R
+import com.atparinas.projectsnap.data.entity.Task
+import com.atparinas.projectsnap.ui.activity.imagecontent.ImageContent
 import kotlinx.android.synthetic.main.activity_task_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +32,8 @@ class TaskListActivity : AppCompatActivity(), KodeinAware, CoroutineScope {
     companion object {
         val EXTRA_PROJECT_ID = "com.atparinas.projectsnap.PROJECT_ID"
         val EXTRA_PROJECT_NAME = "com.atparinas.projectsnap.PROJECT_NAME"
+        val EXTRA_TASK_NAME = "com.atparinas.projectsnap.TASK_NAME"
+        val EXTRA_TASK_ID = "com.atparinas.projectsnap.TASK_ID"
     }
 
     private val taskViewModelFactory: TaskViewModelFactory by instance()
@@ -37,6 +42,7 @@ class TaskListActivity : AppCompatActivity(), KodeinAware, CoroutineScope {
     private val mTaskListAdapter = TaskListAdapter()
 
     private var projectId = -1
+    private var projectName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +52,18 @@ class TaskListActivity : AppCompatActivity(), KodeinAware, CoroutineScope {
         supportActionBar?.subtitle = "Task List"
 
         projectId = intent.getIntExtra(EXTRA_PROJECT_ID, -1)
+        projectName = intent.getStringExtra(EXTRA_PROJECT_NAME)
 
         job = Job()
 
         taskViewModel = ViewModelProviders.of(this, taskViewModelFactory)
             .get(TaskViewModel::class.java)
 
+        mTaskListAdapter.setTaskClickListener(setTaskClickListener())
+
         recycler_view_task_list.apply {
             layoutManager = LinearLayoutManager(this@TaskListActivity)
             adapter = mTaskListAdapter
-
         }
 
         image_view_add.setOnClickListener {
@@ -92,6 +100,28 @@ class TaskListActivity : AppCompatActivity(), KodeinAware, CoroutineScope {
         Toast.makeText(this@TaskListActivity, "Task Saved", Toast.LENGTH_SHORT).show()
     }
 
+    private fun updateTaskStatus(isComplete: Boolean) = launch {
+
+    }
+
+
+    private fun setTaskClickListener() : TaskListAdapter.TaskClickListnener {
+
+        return object : TaskListAdapter.TaskClickListnener {
+            override fun onTaskNameClick(task: Task) {
+                val intent = Intent(this@TaskListActivity, ImageContent::class.java)
+                intent.putExtra(EXTRA_TASK_NAME, task.name)
+                intent.putExtra(EXTRA_PROJECT_NAME, projectName)
+                intent.putExtra(EXTRA_TASK_ID, task.id)
+                startActivity(intent)
+            }
+
+            override fun onTasStatusClick(task: Task) {
+                //Toast.makeText(this@TaskListActivity, "Task Status Clicked", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
 
 
 }

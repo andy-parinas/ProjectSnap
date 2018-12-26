@@ -23,6 +23,8 @@ class TaskListAdapter:
 
         }){
 
+    private lateinit var mTaskClickListener: TaskClickListnener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.task_list_item, parent, false)
@@ -38,10 +40,34 @@ class TaskListAdapter:
             viewHolder.isCompleteImageView.setColorFilter(R.color.taskPrimary)
     }
 
+    fun setTaskClickListener(taskClickListnener: TaskClickListnener){
+        mTaskClickListener = taskClickListnener
+    }
 
     inner class TaskListViewHolder(view: View): RecyclerView.ViewHolder(view){
         val taskNameTextView = view.findViewById<TextView>(R.id.text_view_task_name)
         val isCompleteImageView = view.findViewById<ImageView>(R.id.image_view_complete)
+
+
+        init {
+
+            taskNameTextView.setOnClickListener {
+                if(::mTaskClickListener.isInitialized)
+                    mTaskClickListener.onTaskNameClick(getItem(adapterPosition))
+            }
+
+            isCompleteImageView.setOnClickListener {
+                if(::mTaskClickListener.isInitialized)
+                    mTaskClickListener.onTasStatusClick(getItem(adapterPosition))
+            }
+        }
+
+
+    }
+
+    interface TaskClickListnener {
+        fun onTaskNameClick(task: Task)
+        fun onTasStatusClick(task: Task)
     }
 
 }
