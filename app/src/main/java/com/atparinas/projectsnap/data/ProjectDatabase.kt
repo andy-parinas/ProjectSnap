@@ -10,7 +10,7 @@ import com.atparinas.projectsnap.data.dao.TaskDao
 import com.atparinas.projectsnap.data.entity.Project
 import com.atparinas.projectsnap.data.entity.Task
 
-@Database(entities = [Project::class, Task::class], version = 1)
+@Database(entities = [Project::class, Task::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class ProjectDatabase: RoomDatabase() {
 
@@ -30,6 +30,7 @@ abstract class ProjectDatabase: RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext, ProjectDatabase::class.java, "projectsnap.db")
+                .addMigrations(MIGRATION_1_2)
                 .build()
 
     }

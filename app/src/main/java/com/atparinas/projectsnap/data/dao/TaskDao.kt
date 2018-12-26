@@ -16,6 +16,6 @@ interface TaskDao {
     @Delete
     fun delete(task: Task)
 
-    @Query("SELECT * FROM task_table WHERE projectId = :projectId ORDER BY createdAt DESC")
+    @Query("SELECT * FROM task_table WHERE project_id = :projectId ORDER BY created_at DESC")
     fun getAllTask(projectId: Int) : LiveData<List<Task>>
 }
