@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.atparinas.projectsnap">
 
+    <uses-feature android:name="android.hardware.camera"
+                  android:required="true" />
+    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                     android:maxSdkVersion="18" />
+
     <application
             android:name=".ProjectSnapApplication"
             android:allowBackup="true"
@@ -31,6 +37,17 @@
         </activity>
         <activity android:name=".ui.activity.imagecontent.ImageContent">
         </activity>
+
+        <provider android:authorities="com.atparinas.projectsnap"
+                  android:name="android.support.v4.content.FileProvider"
+                  android:exported="false"
+                  android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                       android:resource="@xml/file_path" />
+
+        </provider>
+
+
     </application>
 
 </manifest>

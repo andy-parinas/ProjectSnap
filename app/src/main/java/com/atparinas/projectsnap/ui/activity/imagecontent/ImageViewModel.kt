@@ -12,6 +12,7 @@ import java.util.*
 class ImageViewModel(private val imageRespository: ImageRepository): ViewModel() {
 
     var mTaskId = 0
+    var currentImagePath = ""
 
     val images by lazy {
         GlobalScope.async(Dispatchers.IO, start = CoroutineStart.LAZY) {
