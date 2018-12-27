@@ -38,7 +38,7 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    private val mImageListAdapter = ImageListAdapter()
+    private val mImageListAdapter = ImageListAdapter(this)
 
     private val imageViewModelFactory: ImageViewModelFactory by instance()
     private lateinit var imageViewModel: ImageViewModel
@@ -55,7 +55,8 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
             .get(ImageViewModel::class.java)
 
         recycler_view_images.apply {
-            layoutManager = LinearLayoutManager(this@ImageContent)
+//            layoutManager = LinearLayoutManager(this@ImageContent)
+            layoutManager = GridLayoutManager(this@ImageContent, 2)
             adapter = mImageListAdapter
         }
 
