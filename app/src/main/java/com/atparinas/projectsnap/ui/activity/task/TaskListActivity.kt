@@ -87,7 +87,10 @@ class TaskListActivity : AppCompatActivity(), KodeinAware, CoroutineScope {
 
 
     private fun subscribeToTaskList() = launch {
-        val tasks = taskViewModel.getAllTasks(projectId)
+//        val tasks = taskViewModel.getAllTasks(projectId)
+//
+        taskViewModel.setProjectId(projectId)
+        val tasks = taskViewModel.tasks.await()
 
         tasks.observe(this@TaskListActivity, Observer {
             if(it == null) return@Observer

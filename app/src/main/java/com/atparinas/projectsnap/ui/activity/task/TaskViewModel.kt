@@ -12,11 +12,18 @@ import java.util.*
 
 class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
 
-//    val tasks by lazy {
-//        GlobalScope.async(Dispatchers.IO, start = CoroutineStart.LAZY){
-//            taskRepository.getAllTask()
-//        }
-//    }
+    private var mProjectId = -1
+
+    val tasks by lazy {
+        GlobalScope.async(Dispatchers.IO, start = CoroutineStart.LAZY){
+                taskRepository.getAllTask(mProjectId)
+        }
+    }
+
+
+    fun setProjectId(projectId: Int){
+        mProjectId = projectId
+    }
 
     suspend fun getAllTasks(projectId: Int): LiveData<List<Task>>{
         return taskRepository.getAllTask(projectId)
