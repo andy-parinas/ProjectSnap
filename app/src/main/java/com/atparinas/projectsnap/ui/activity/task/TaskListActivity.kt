@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.data.entity.Task
@@ -80,6 +81,11 @@ class TaskListActivity : AppCompatActivity(), KodeinAware, CoroutineScope {
 
         subscribeToTaskList()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.project_content_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onDestroy() {
