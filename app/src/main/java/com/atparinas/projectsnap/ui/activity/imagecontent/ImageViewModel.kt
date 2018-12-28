@@ -33,6 +33,13 @@ class ImageViewModel(private val imageRespository: ImageRepository): ViewModel()
         imageRespository.updateImage(image)
     }
 
+    suspend fun updateImageUploadStatus(images: List<Image>){
+        images.forEach {
+            it.isUploaded = true
+            imageRespository.updateImage(it)
+        }
+    }
+
     suspend fun deleteSelectedImages(taskId: Int){
         val images = imageRespository.getSelectedImages(taskId)
         images.forEach {

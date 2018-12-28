@@ -12,7 +12,7 @@ import com.atparinas.projectsnap.data.entity.Image
 import com.atparinas.projectsnap.data.entity.Project
 import com.atparinas.projectsnap.data.entity.Task
 
-@Database(entities = [Project::class, Task::class, Image::class], version = 4)
+@Database(entities = [Project::class, Task::class, Image::class], version = 5)
 @TypeConverters(Converters::class)
 abstract class ProjectDatabase: RoomDatabase() {
 
@@ -36,6 +36,7 @@ abstract class ProjectDatabase: RoomDatabase() {
                 .addMigrations(MIGRATION_1_2)
                 .addMigrations(MIGRATION_2_3)
                 .addMigrations(MIGRATION_3_4)
+                .addMigrations(MIGRATION_4_5)
                 .build()
 
     }

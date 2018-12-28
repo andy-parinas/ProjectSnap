@@ -159,6 +159,8 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files)
             startActivity(Intent.createChooser(intent, "Select Share"))
 
+            Log.d("IMAGE_CONTENT", "Uploaded")
+
         }
 
     }

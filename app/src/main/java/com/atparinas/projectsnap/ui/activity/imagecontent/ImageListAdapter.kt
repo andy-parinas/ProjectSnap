@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.TextView
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.data.entity.Image
 import com.bumptech.glide.Glide
@@ -42,7 +43,8 @@ class ImageListAdapter(private val context: Context) :
         val file = File(image.uri)
 
         viewHolder.checkBoxImageSelect.isChecked = image.isSelected
-        Log.d("IMAGECONTENT", "Image Select Status ${image.isSelected}")
+        if(image.isUploaded)
+            viewHolder.textViewImageUploadStatus.text = "UPLOADED"
 
         Glide.with(context)
             .load(file)
@@ -57,6 +59,7 @@ class ImageListAdapter(private val context: Context) :
     inner class ImageViewHolder(view: View): RecyclerView.ViewHolder(view){
         val imageView = view.findViewById<ImageView>(R.id.image_view_content)
         val checkBoxImageSelect = view.findViewById<CheckBox>(R.id.check_box_image_select)
+        val textViewImageUploadStatus = view.findViewById<TextView>(R.id.text_view_image_upload_status)
 
         init {
             checkBoxImageSelect.setOnClickListener {

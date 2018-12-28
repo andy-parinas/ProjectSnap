@@ -11,7 +11,8 @@ data class Image(
     @ColumnInfo(name="name") var name: String,
     @ColumnInfo(name="uri") var uri: String,
     @ColumnInfo(name="created_at") var createdAt: Date,
-    @ColumnInfo(name="is_selected") var isSelected: Boolean = false
+    @ColumnInfo(name="is_selected") var isSelected: Boolean = false,
+    @ColumnInfo(name="is_uploaded") var isUploaded: Boolean = false
 ) {
     @PrimaryKey(autoGenerate = true)
     var id = 0
