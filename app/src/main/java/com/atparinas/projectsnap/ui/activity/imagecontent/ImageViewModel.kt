@@ -1,12 +1,14 @@
 package com.atparinas.projectsnap.ui.activity.imagecontent
 
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.atparinas.projectsnap.data.entity.Image
 import com.atparinas.projectsnap.data.repository.ImageRepository
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import java.io.File
 import java.util.*
 
 class ImageViewModel(private val imageRespository: ImageRepository): ViewModel() {
@@ -14,7 +16,6 @@ class ImageViewModel(private val imageRespository: ImageRepository): ViewModel()
     var mTaskId = 0
     var currentImagePath = ""
 
-    val selectedImages = mutableListOf<Image>()
 
     val images by lazy {
         GlobalScope.async(Dispatchers.IO, start = CoroutineStart.LAZY) {
@@ -29,8 +30,18 @@ class ImageViewModel(private val imageRespository: ImageRepository): ViewModel()
 
     suspend fun updateImageSelect(image: Image, state: Boolean){
         image.isSelected = state
-        selectedImages.add(image)
         imageRespository.updateImage(image)
     }
 
+    suspend fun deleteSelectedImages(taskId: Int){
+        val images = imageRespository.getSelectedImages(taskId)
+        images.forEach {
+            imageRespository.deleteImage(it)
+            Log.d("IMAGE_CONTENT", "$it")
+        }
+    }
+
+    suspend fun getSelectedImages(taskId: Int): List<Image>{
+        return imageRespository.getSelectedImages(taskId)
+    }
 }

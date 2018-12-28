@@ -4,6 +4,7 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -13,16 +14,15 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.data.entity.Image
 import com.atparinas.projectsnap.ui.activity.task.TaskListActivity.Companion.EXTRA_PROJECT_NAME
 import com.atparinas.projectsnap.ui.activity.task.TaskListActivity.Companion.EXTRA_TASK_ID
 import com.atparinas.projectsnap.ui.activity.task.TaskListActivity.Companion.EXTRA_TASK_NAME
 import kotlinx.android.synthetic.main.activity_image_content.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -94,6 +94,19 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when(item?.itemId){
+
+            R.id.menu_delete_imagecontent -> deleteSelectedImage()
+
+            R.id.menu_share_image -> sendImages()
+
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -117,6 +130,37 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
 
     private fun updateImageSelect(image: Image, state: Boolean) = launch{
         imageViewModel.updateImageSelect(image, state)
+    }
+
+    private fun deleteSelectedImage() = launch {
+        imageViewModel.deleteSelectedImages(intent.getIntExtra(EXTRA_TASK_ID, 0))
+        Toast.makeText(this@ImageContent, "Images Deleted", Toast.LENGTH_SHORT).show()
+
+    }
+
+    private fun sendImages() = launch {
+        val selectedImages = imageViewModel.getSelectedImages(intent.getIntExtra(EXTRA_TASK_ID, 0))
+
+        if(!selectedImages.isEmpty()){
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND_MULTIPLE
+                type = "image/jpeg"
+            }
+
+            val files = arrayListOf<Uri>()
+
+            selectedImages.forEach {
+                val file = File(it.uri)
+                val uri = FileProvider.getUriForFile(this@ImageContent,
+                    "com.atparinas.projectsnap", file)
+                files.add(uri)
+            }
+
+            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files)
+            startActivity(Intent.createChooser(intent, "Select Share"))
+
+        }
+
     }
 
     private fun getImageFile(): File{
@@ -144,7 +188,6 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
     private fun setImageClickListener(): ImageListAdapter.ImageClickListener{
         return object: ImageListAdapter.ImageClickListener {
             override fun onImageCheckUncheck(image: Image, checkBoxState: Boolean) {
-                Log.d("IMAGECONTENT", "checkboxState $checkBoxState")
                 updateImageSelect(image,checkBoxState)
             }
 

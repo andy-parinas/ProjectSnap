@@ -18,4 +18,7 @@ interface ImageDao {
 
     @Query("SELECT * FROM image_table WHERE task_id = :taskId ORDER BY created_at DESC")
     fun getAllImages(taskId: Int): LiveData<List<Image>>
+
+    @Query("SELECT * FROM image_table WHERE task_id = :taskId AND is_selected = 1 ORDER BY created_at DESC")
+    fun getSelectedImages(taskId: Int): List<Image>
 }

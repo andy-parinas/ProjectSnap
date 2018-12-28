@@ -13,4 +13,6 @@ interface ImageRepository {
 
     suspend fun getAllImages(taskId: Int): LiveData<List<Image>>
 
+    suspend fun getSelectedImages(taskId: Int): List<Image>
+
 }
