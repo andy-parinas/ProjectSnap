@@ -11,7 +11,6 @@ import android.widget.TextView
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.data.entity.Project
 
-//class ProjectListAdapter : RecyclerView.Adapter<ProjectListAdapter.ProjectListViewHolder>(){
 
 class ProjectListAdapter :
     ListAdapter<Project, ProjectListAdapter.ProjectListViewHolder>(object: DiffUtil.ItemCallback<Project>(){
@@ -25,9 +24,6 @@ class ProjectListAdapter :
 
     }){
 
-
-//    private val mProjects = mutableListOf<Project>()
-
     private lateinit var mItemClickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectListViewHolder {
@@ -37,9 +33,6 @@ class ProjectListAdapter :
         return ProjectListViewHolder(view)
     }
 
-//    override fun getItemCount(): Int {
-//        return mProjects.size
-//    }
 
     override fun onBindViewHolder(viewHolder: ProjectListViewHolder, position: Int) {
 
@@ -52,10 +45,6 @@ class ProjectListAdapter :
 
     }
 
-//    fun setProjectList(projects: List<Project>){
-//        mProjects.addAll(projects)
-//        notifyDataSetChanged()
-//    }
 
     fun setItemClickListener(itemClickListener: OnItemClickListener){
         mItemClickListener = itemClickListener

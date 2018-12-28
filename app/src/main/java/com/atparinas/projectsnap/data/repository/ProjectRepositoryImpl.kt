@@ -31,4 +31,10 @@ class ProjectRepositoryImpl(private val projectDao: ProjectDao) : ProjectReposit
             return@withContext projectDao.getAllProject()
         }
     }
+
+    override suspend fun findProject(name: String): LiveData<List<Project>> {
+        return withContext(Dispatchers.IO){
+            return@withContext projectDao.findProject(name)
+        }
+    }
 }

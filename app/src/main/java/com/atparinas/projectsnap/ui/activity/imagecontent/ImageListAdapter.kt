@@ -1,11 +1,10 @@
 package com.atparinas.projectsnap.ui.activity.imagecontent
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +26,10 @@ class ImageListAdapter(private val context: Context) :
         }
 
     }) {
+
+
+    private lateinit var mImageClickListener: ImageClickListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.image_list_item, parent, false)
@@ -38,14 +41,35 @@ class ImageListAdapter(private val context: Context) :
         val image = getItem(position)
         val file = File(image.uri)
 
+        viewHolder.checkBoxImageSelect.isChecked = image.isSelected
+        Log.d("IMAGECONTENT", "Image Select Status ${image.isSelected}")
+
         Glide.with(context)
             .load(file)
             .into(viewHolder.imageView)
     }
 
+    fun setImageClickListener(imageClickListener: ImageClickListener){
+        mImageClickListener = imageClickListener
+    }
+
 
     inner class ImageViewHolder(view: View): RecyclerView.ViewHolder(view){
         val imageView = view.findViewById<ImageView>(R.id.image_view_content)
+        val checkBoxImageSelect = view.findViewById<CheckBox>(R.id.check_box_image_select)
+
+        init {
+            checkBoxImageSelect.setOnClickListener {
+               if(::mImageClickListener.isInitialized){
+                   mImageClickListener.onImageCheckUncheck(getItem(adapterPosition), checkBoxImageSelect.isChecked)
+               }
+            }
+        }
+    }
+
+    interface ImageClickListener {
+        fun onImageCheckUncheck(image: Image, checkBoxState: Boolean)
+        fun onImageZoom(image: Image)
     }
 
 }

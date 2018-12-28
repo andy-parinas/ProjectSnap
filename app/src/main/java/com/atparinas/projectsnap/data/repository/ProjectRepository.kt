@@ -12,4 +12,6 @@ interface ProjectRepository {
     suspend fun deleteProject(project: Project)
 
     suspend fun getAllProjects(): LiveData<List<Project>>
+
+    suspend fun findProject(name: String): LiveData<List<Project>>
 }

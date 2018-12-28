@@ -10,4 +10,5 @@
     <string name="site_name">Site Name:</string>
     <string name="site_number">Site Number:</string>
     <string name="status">Status:</string>
+    <string name="search_project">Search Project</string>
 </resources>

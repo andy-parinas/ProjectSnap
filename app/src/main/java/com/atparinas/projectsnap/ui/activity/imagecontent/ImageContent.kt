@@ -11,8 +11,10 @@ import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.Menu
 import com.atparinas.projectsnap.R
+import com.atparinas.projectsnap.data.entity.Image
 import com.atparinas.projectsnap.ui.activity.task.TaskListActivity.Companion.EXTRA_PROJECT_NAME
 import com.atparinas.projectsnap.ui.activity.task.TaskListActivity.Companion.EXTRA_TASK_ID
 import com.atparinas.projectsnap.ui.activity.task.TaskListActivity.Companion.EXTRA_TASK_NAME
@@ -48,6 +50,8 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_content)
+        supportActionBar?.title = intent.getStringExtra(EXTRA_TASK_NAME)
+        supportActionBar?.subtitle = intent.getStringExtra(EXTRA_PROJECT_NAME)
 
         job = Job()
 
@@ -63,6 +67,8 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
         button_take_picture.setOnClickListener {
             startCameraIntent()
         }
+
+        mImageListAdapter.setImageClickListener(setImageClickListener())
 
         subscribeToImageList()
 
@@ -109,6 +115,10 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
         imageViewModel.insertImage(taskId, name, uri)
     }
 
+    private fun updateImageSelect(image: Image, state: Boolean) = launch{
+        imageViewModel.updateImageSelect(image, state)
+    }
+
     private fun getImageFile(): File{
         val imageName: String = "${intent.getStringExtra(EXTRA_PROJECT_NAME)}_${intent.getStringExtra(EXTRA_TASK_NAME)}_"
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -128,6 +138,21 @@ class ImageContent : AppCompatActivity(), KodeinAware, CoroutineScope {
 
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
             startActivityForResult(cameraIntent, IMAGE_REQUEST)
+        }
+    }
+
+    private fun setImageClickListener(): ImageListAdapter.ImageClickListener{
+        return object: ImageListAdapter.ImageClickListener {
+            override fun onImageCheckUncheck(image: Image, checkBoxState: Boolean) {
+                Log.d("IMAGECONTENT", "checkboxState $checkBoxState")
+                updateImageSelect(image,checkBoxState)
+            }
+
+
+            override fun onImageZoom(image: Image) {
+
+            }
+
         }
     }
 

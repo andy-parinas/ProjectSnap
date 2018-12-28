@@ -10,7 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.atparinas.projectsnap.R
 import com.atparinas.projectsnap.ui.fragment.project.projectlist.ProjectListFragment
-import com.atparinas.projectsnap.ui.fragment.project.ProjectSearchFragment
+import com.atparinas.projectsnap.ui.fragment.project.projectsearch.ProjectSearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

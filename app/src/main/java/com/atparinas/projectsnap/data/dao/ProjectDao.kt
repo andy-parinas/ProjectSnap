@@ -18,4 +18,7 @@ interface ProjectDao {
 
     @Query("SELECT * FROM project_table ORDER BY createdAt ASC")
     fun getAllProject(): LiveData<List<Project>>
+
+    @Query("SELECT * FROM project_table WHERE name LIKE :projectName ORDER BY createdAt ASC")
+    fun findProject(projectName: String): LiveData<List<Project>>
 }

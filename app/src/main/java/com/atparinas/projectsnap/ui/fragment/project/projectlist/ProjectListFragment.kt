@@ -18,6 +18,7 @@ import com.atparinas.projectsnap.data.entity.Project
 import com.atparinas.projectsnap.ui.activity.task.TaskListActivity
 import com.atparinas.projectsnap.ui.fragment.project.ProjectViewModel
 import com.atparinas.projectsnap.ui.fragment.project.ProjectViewModelFactory
+import kotlinx.android.synthetic.main.fragment_project_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -46,9 +47,6 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
     //RecyclerView Adapter
     private val mProjectListAdapter = ProjectListAdapter()
 
-
-    private val mLayoutManager = LinearLayoutManager(this.context)
-
     /*
         ################################################
                     FRAGMENTS LIFECYCLE
@@ -62,7 +60,6 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
         projectViewModel = ViewModelProviders.of(this, projectViewModelFactory)
             .get(ProjectViewModel::class.java)
 
-        Log.d("FRAGMENT_LOG", "ProjectListFragment: onCreate")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -70,20 +67,16 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
 
         val view = inflater.inflate(R.layout.fragment_project_list, container, false)
 
-        //Initialize RecyclerView with Layout and Adapter
-        val projectListRecyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_project_list)
-        projectListRecyclerView.apply {
-            layoutManager = mLayoutManager
-            adapter = mProjectListAdapter
-        }
-
-        Log.d("FRAGMENT_LOG", "ProjectListFragment: onCreateView")
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d("FRAGMENT_LOG", "ProjectListFragment: onActivityCreated ")
+
+        recycler_view_project_list.apply {
+            layoutManager = LinearLayoutManager(this.context)
+            adapter = mProjectListAdapter
+        }
 
         subscribeToProjectList()
 
@@ -114,6 +107,7 @@ class ProjectListFragment : Fragment(), KodeinAware, CoroutineScope {
             if(it == null) return@Observer
             //mProjectListAdapter.setProjectList(it)
             mProjectListAdapter.submitList(it)
+
         })
     }
 
